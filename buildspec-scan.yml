@@ -1,0 +1,16 @@
+version: 0.2  
+  
+phases:  
+  install:  
+    runtime-versions:  
+      nodejs: 14  
+  pre_build:  
+    commands:  
+      - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin  
+  build:  
+    commands:  
+      - npm ci  
+  post_build:  
+    commands:  
+      - trivy --exit-code 1 --severity HIGH,CRITICAL --no-progress --format json --output trivy-results.json .  
+      - cat trivy-results.json  
