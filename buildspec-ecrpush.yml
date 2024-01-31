@@ -8,6 +8,6 @@ phases:
   build:  
     commands:  
       - echo Building Docker image...  
-      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$YOUR_ECR_REPOSITORY_NAME .  
+      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME .  
       - echo Pushing Docker image to AWS ECR...  
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$YOUR_ECR_REPOSITORY_NAME  
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME  
