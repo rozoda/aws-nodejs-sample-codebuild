@@ -5,10 +5,11 @@ phases:
     commands:  
       - echo Logging in to AWS ECR...  
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com  
-      - printenv  # Add this line to print the environment variables
   build:  
     commands:  
       - echo Building Docker image...  
-      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME .  
+      - COMMIT_HASH=$(git rev-parse --short HEAD)  
+      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME:$COMMIT_HASH .  
+      #- docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .  
       - echo Pushing Docker image to AWS ECR...  
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME  
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME:$COMMIT_HASH  
