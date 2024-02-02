@@ -5,17 +5,13 @@ phases:
     commands:  
       - echo Logging in to AWS ECR...  
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com  
-      
+  
+      # Print the value of param1  
+      - echo "The value of param1 is: $param1"  
+  
       # Print the environment variables  
       - echo "Printing environment variables..."  
       - printenv  
-      
-      # Retrieve the parameter value from Parameter Store  
-      - |  
-        PARAMETER_VALUE=$(aws ssm get-parameter --name $PARAMETER_NAME --query 'Parameter.Value' --output text --region $AWS_REGION)  
-        echo "The parameter value is: $PARAMETER_VALUE"  
-  
-
   
   build:  
     commands:  
