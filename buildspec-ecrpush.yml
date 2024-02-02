@@ -8,7 +8,7 @@ phases:
   
       # Retrieve the parameter value from Parameter Store  
       - |  
-        PARAMETER_VALUE=$(aws ssm get-parameter --name $PARAMETER_NAME --query 'Parameter.Value' --output text --region $AWS_REGION)  
+        PARAMETER_VALUE=$(aws ssm get-parameter --name param1 --query 'Parameter.Value' --output text --region $AWS_REGION)  
         echo "The parameter value is: $PARAMETER_VALUE"  
   
   build:  
