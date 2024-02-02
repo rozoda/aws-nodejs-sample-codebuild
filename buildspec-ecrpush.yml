@@ -5,9 +5,15 @@ phases:
     commands:  
       - echo Logging in to AWS ECR...  
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com  
+  
+      # Retrieve the parameter value from Parameter Store  
+      - |  
+        PARAMETER_VALUE=$(aws ssm get-parameter --name $PARAMETER_NAME --query 'Parameter.Value' --output text --region $AWS_REGION)  
+        echo "The parameter value is: $PARAMETER_VALUE"  
+  
   build:  
     commands:  
-      - echo Building Docker image...           
+      - echo Building Docker image...  
       - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .  
       - echo Pushing Docker image to AWS ECR...  
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION  
